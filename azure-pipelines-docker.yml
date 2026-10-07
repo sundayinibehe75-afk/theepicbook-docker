@@ -99,14 +99,14 @@ stages:
               set -e
               scp -o StrictHostKeyChecking=no -i "$(sshKeyPath)" \
                 docker-compose.yml proxy/nginx.conf \
-                ubuntu@$(vmPublicIp):~/theepicbook/
+                azureuser@$(vmPublicIp):~/theepicbook/
               scp -o StrictHostKeyChecking=no -i "$(sshKeyPath)" \
-                proxy/nginx.conf ubuntu@$(vmPublicIp):~/theepicbook/proxy/nginx.conf
+                proxy/nginx.conf azureuser@$(vmPublicIp):~/theepicbook/proxy/nginx.conf
             displayName: 'Copy latest Compose file and proxy config to the VM'
 
           - script: |
               set -e
-              ssh -o StrictHostKeyChecking=no -i "$(sshKeyPath)" ubuntu@$(vmPublicIp) '
+              ssh -o StrictHostKeyChecking=no -i "$(sshKeyPath)" azureuser@$(vmPublicIp) '
                 cd ~/theepicbook &&
                 sed -i "s|image: epicbook-backend:1.0|image: $(dockerHubUsername)/epicbook-backend:$(imageTag)|" docker-compose.yml &&
                 sed -i "s|image: epicbook-frontend:1.0|image: $(dockerHubUsername)/epicbook-frontend:$(imageTag)|" docker-compose.yml &&
